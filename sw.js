@@ -1,4 +1,4 @@
-const CACHE = 'mosaic-v1';
+const CACHE = 'mosaic-v2';
 const ASSETS = [
   '/',
   '/index.html',
