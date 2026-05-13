@@ -263,9 +263,11 @@ body{
         <div class="logo-tiles" id="logo-tiles"></div>
         Mosaic
       </div>
-      <div class="score-pill" id="score-pill" style="background:#EDE6F8;color:#5C3D99;">
-        ✦ <span id="score-val">0</span>
-      </div>
+      <button onclick="toggleEditMode()" id="edit-toggle-btn" style="
+        font-family:'Nunito',sans-serif;font-size:13px;font-weight:700;
+        background:#EDE6F8;color:#5C3D99;border:none;cursor:pointer;
+        padding:6px 14px;border-radius:20px;transition:background 0.2s;
+      ">편집</button>
     </div>
 
     <div class="week-header">
@@ -280,12 +282,9 @@ body{
     </div>
     <div class="week-strip" id="week-strip"></div>
 
-    <div class="sec-label" style="display:flex;align-items:center;justify-content:space-between;">
-      <span>오늘의 습관</span>
-      <button onclick="toggleEditMode()" id="edit-toggle-btn" style="font-family:'Nunito',sans-serif;font-size:12px;font-weight:700;background:none;border:none;color:var(--sub);cursor:pointer;padding:0;">편집</button>
-    </div>
+    <div class="sec-label">오늘의 습관</div>
     <div class="edit-bar" id="edit-bar">
-      <span class="edit-hint">길게 눌러서 순서 변경 · 🗑 으로 삭제</span>
+      <span class="edit-hint">⠿ 드래그로 순서 변경 · 🗑 으로 삭제 · 이름 탭해서 수정</span>
       <button class="edit-done-btn" onclick="toggleEditMode()">완료</button>
     </div>
     <div id="habit-list"></div>
@@ -699,7 +698,10 @@ let dragSrcId=null;
 function toggleEditMode(){
   editMode=!editMode;
   document.getElementById('edit-bar').classList.toggle('show',editMode);
-  document.getElementById('edit-toggle-btn').textContent=editMode?'':'편집';
+  const btn=document.getElementById('edit-toggle-btn');
+  btn.textContent=editMode?'완료':'편집';
+  btn.style.background=editMode?'#9B7FCC':'#EDE6F8';
+  btn.style.color=editMode?'#fff':'#5C3D99';
   if(editMode) selectedHabitId=null;
   buildWeekStrip();
   buildHabits();
@@ -982,14 +984,7 @@ function toggleCheck(id){
   }
 }
 
-function updateScore(){
-  const n=habits.filter(h=>!!h.checks[todayKey()]).length;
-  document.getElementById('score-val').textContent=n*10;
-  const sel=habits.find(h=>h.id===selectedHabitId);
-  const p=sel?PALETTES[sel.pal]:PALETTES[0];
-  const pill=document.getElementById('score-pill');
-  pill.style.background=p.light;pill.style.color=p.text;
-}
+function updateScore(){}
 
 // MODAL
 let modalPal=0;
